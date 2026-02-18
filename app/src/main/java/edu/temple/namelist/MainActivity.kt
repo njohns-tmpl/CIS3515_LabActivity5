@@ -12,7 +12,7 @@ import android.widget.TextView
 
 class MainActivity : AppCompatActivity() {
 
-    lateinit var names: List<String>
+    lateinit var names: MutableList<String>
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -37,8 +37,19 @@ class MainActivity : AppCompatActivity() {
         }
 
         findViewById<View>(R.id.deleteButton).setOnClickListener {
-            (names as MutableList).removeAt(spinner.selectedItemPosition)
-            (spinner.adapter as BaseAdapter).notifyDataSetChanged()
+            val position = spinner.selectedItemPosition
+            if (position >= 0 && position < names.size) {
+                (names as MutableList).removeAt(position)
+                (spinner.adapter as BaseAdapter).notifyDataSetChanged()
+
+                if (names.size > 0) {
+                    val position2 = if (position == 0) 0 else position-1
+                    spinner.setSelection(position2)
+                    nameTextView.text = names[position2]
+                } else {
+                    nameTextView.text = ""
+                }
+            }
         }
 
     }

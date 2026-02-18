@@ -9,8 +9,9 @@ import android.widget.TextView
 class CustomAdapter(private val names: List<String>, private val context: Context) : BaseAdapter() {
 
     // How many items are in the collection
+    //Change 1 - make the spinner use the actual size. Before if items were deleted the getcount() would go to an index that no longer existed, hence the error
     override fun getCount(): Int {
-        return 5
+        return names.size
     }
 
     // Fetch an item from the collection
